@@ -9,4 +9,4 @@ resources:
 - dns/powerdns-webhook
 - flux
 - storage/topolvm
-- kyverno
+#- kyverno
