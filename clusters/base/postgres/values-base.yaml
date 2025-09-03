@@ -1,0 +1,60 @@
+fullnameOverride: pg-gis
+type: postgresql
+mode: standalone
+version:
+  postgresql: "17"
+cluster:
+  instances: 3
+  postgresql:
+    pg_hba: 
+      - host all all 10.0.0.0/8 md5
+      - host all all 172.16.0.0/12 md5
+  initdb:
+    #database: thux
+    #owner: thux
+    secret: 
+    #   # nel secret c'è username: db-user / password: ...
+      name: 'pg-credentials'
+
+  storage:
+    storageClass: topolvm-provisioner-thin
+    size: 1G
+
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    tolerations:
+    - effect: NoSchedule
+      key: app
+      operator: Equal
+      value: postgresql
+    #topologyKey: kubernetes.io/hostname
+    topologyKey: zone
+
+monitoring:
+  enablePodMonitor: true
+  
+backups:
+  enabled: true
+  provider: s3
+  endpointURL: "https://s3.eu-south-1.wasabisys.com"
+  s3:
+    region: ""
+    bucket: "thux-"
+    path: "/pg"
+    # Se vuoi utilizzare i secrets esistenti
+    #existingSecret: "pg-credentials"
+    accessKey: "MJKGHZKETZKZJZW8NRQH"
+    #secretKey: to-be-set-in-secret-pg-credentials
+    # overwritten by overlay's kustomize
+
+  scheduledBackups:
+    - name: daily-backup
+      schedule: "0 0 0 * * *"
+      backupOwnerReference: self
+
+  # Configurazioni aggiuntive per compressione e retention
+  compression: gzip
+  retentionPolicy: "100d"
+  immediateCheckpoint: false
+  jobs: 2

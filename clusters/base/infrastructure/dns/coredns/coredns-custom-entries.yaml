@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom-entries
+  namespace: kube-system
+  labels:
+    kustomize.toolkit.fluxcd.io/name: infra-thux-prod
+    kustomize.toolkit.fluxcd.io/namespace: thux
+data:
+  custom.override: |
+    hosts {
+        195.154.197.84 sso.fake.essepaghe.it wsp.fake.essepaghe.it wa.fake.essepaghe.it
+        fallthrough
+    }

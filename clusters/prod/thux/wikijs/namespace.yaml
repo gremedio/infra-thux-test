@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wikijs
+  annotations:
+    field.cattle.io/projectId: "c-m-slsmv4wq:p-4k6fj"
+  labels:
+    field.cattle.io/projectId: "p-4k6fj"
+    replicator.thux-registry-creds: "true"
+    replicator.tls-cert-rancher-thux: "true"

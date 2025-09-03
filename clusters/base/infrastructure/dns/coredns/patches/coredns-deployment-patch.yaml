@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rke2-coredns-rke2-coredns
+  namespace: kube-system
+$patch: strategic
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: rke2-coredns
+      app.kubernetes.io/name: rke2-coredns
+      k8s-app: kube-dns
+  template:
+    spec:
+      volumes:
+      - name: custom-config
+        configMap:
+          name: coredns-custom-entries
+      containers:
+      - name: coredns
+        volumeMounts:
+        - name: custom-config
+          mountPath: /etc/coredns/custom/

@@ -1,0 +1,54 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: le-rancher.thux.dev-wildcard
+  namespace: traefik
+  annotations:
+    replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+spec:
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+  secretName: tls-rancher.thux.dev-wildcard
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.rancher.thux.dev"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: le-thux.dev-wildcard
+  namespace: traefik
+  annotations:
+    replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+spec:
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+  secretName: tls-thux.dev-wildcard
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.thux.dev"
+---
+    # certificato per lb2.thux.dev
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: le-lb2.thux.dev
+  namespace: traefik
+  annotations:
+    replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+spec:
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replicate-to-matching: replicator.tls-cert-rancher-thux=true
+  secretName: tls-lb2.thux.dev
+  issuerRef:
+    name: letsencrypt-http
+    kind: ClusterIssuer
+  dnsNames:
+    - lb2.thux.dev

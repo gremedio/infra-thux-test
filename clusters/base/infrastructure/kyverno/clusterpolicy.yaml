@@ -1,0 +1,31 @@
+# apiVersion: kyverno.io/v1
+# kind: ClusterPolicy
+# metadata:
+#   name: add-project-annotation-from-namespace
+# spec:
+#   background: true
+#   rules:
+#   - name: add-project-annotation-to-pods
+#     match:
+#       resources:
+#         kinds:
+#         - Pod
+#         namespaces:
+#         - "thux"
+#         - "wikijs"
+#         - "thux-www-2024"
+#     context:
+#     - name: namespace_info
+#       apiCall:
+#         urlPath: "/api/v1/namespaces/{{request.namespace}}"
+#         jmesPath: "metadata.annotations.project_name"
+#     preconditions:
+#       # Verifica che l'annotazione project_name sia definita nel namespace
+#       - key: "{{ namespace_info }}"
+#         operator: NotEquals
+#         value: ""
+#     mutate:
+#       patchStrategicMerge:
+#         metadata:
+#           annotations:
+#             customer-project: "{{ namespace_info }}"

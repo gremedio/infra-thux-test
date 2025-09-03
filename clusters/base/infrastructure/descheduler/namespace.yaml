@@ -1,0 +1,7 @@
+# bootstrap/namespaces/namespace-descheduler.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: descheduler
+  labels:
+    name: descheduler

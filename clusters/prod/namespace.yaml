@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: thux
+  annotations:
+    field.cattle.io/projectId: "c-m-slsmv4wq:p-dwjjv"
+  labels:
+    field.cattle.io/projectId: "p-dwjjv"

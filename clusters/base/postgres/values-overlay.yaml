@@ -1,0 +1,39 @@
+## THIS IS JUST an EXAMPLE - overwritten by the real one
+## by kustomize.yaml
+
+fullnameOverride: ???
+# CLUSTER
+cluster:
+  instances: 3
+
+  strage:
+    size: 100Mi
+
+# BACKUP
+backups:
+  s3:
+    bucket: "thux-backup"
+    path: "/pg"
+    accessKey: "MJKGHZKETZKZJZW8NRQH"
+    ## secret key is to set in pg-credentials
+    ## or you should customize kustomize.yaml
+    # secretKey: to-be-set-in-secret-pg-credentials
+  scheduledBackups:
+    - name: daily-backup
+      schedule: "0 0 0 * * *"
+      backupOwnerReference: self
+    
+# RECOVERY
+recovery:
+  clusterName: wikijs
+  endpointURL: https://minio.thux.it
+  method: object_store
+  pitrTarget:
+    time: 2024-12-05 12:10:00+00:00
+  provider: s3
+  s3:
+    accessKey: thux-wikijs
+    bucket: thux-wikijs
+    path: /postgres
+    region: ""
+    secretKey: QW5MTVsqmEXeS5K4zSVPPc4EsJF6

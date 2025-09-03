@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: allow-vpn-thux
+  namespace: traefik
+spec:
+  ipAllowList:
+    sourceRange:
+      - 93.39.246.149/32
+      - 10.1.210.0/24
+      - 10.3.210.0/24

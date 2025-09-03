@@ -1,0 +1,36 @@
+fullnameOverride: pg-thux
+# CLUSTER
+version:
+  postgresql: "16"
+cluster:
+  instances: 2
+  storage:
+    size: 2Gi
+mode: recovery
+# RECOVERY
+recovery:
+  # thux-2024-www-stg-backup/postgres-backups/thux-www-2024-stg/base
+  clusterName: thux-www-2024-stg
+  endpointURL: https://minio.thux.it
+  method: object_store
+  # pitrTarget:
+  #   time: 2024-12-08 10:00:00+00:00
+  provider: s3
+  s3:
+    accessKey: DGMEIH7YC1JQAE6906PW
+    bucket: thux-2024-www-stg-backup
+    path: /postgres-backups
+    region: ""
+    secretKey: '0oRFDrCwVz9pqyIFrznj+GiN+NU40kmUz8At7qzD'
+# BACKUP
+backups:
+  retentionPolicy: 14d
+  s3:
+    accessKey: CFCHQYI2ZH3ED9LLNJ4X
+    bucket: thux
+    path: /pg
+    #secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
+  scheduledBackups:
+  - backupOwnerReference: self
+    name: daily-backup
+    schedule: 0 0 0 * * *

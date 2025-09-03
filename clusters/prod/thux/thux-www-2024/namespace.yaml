@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: thux-www-2024
+  labels:
+    name: thux-www-2024
+    replicator.thux-registry-creds: "true"
+    #replicator.thux-pg-credentials: "true"

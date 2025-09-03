@@ -1,0 +1,43 @@
+# prod/infrastructure/descheduler/configmap-policy-patch.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: descheduler
+  namespace: descheduler
+data:
+  policy.yaml: |
+    apiVersion: "descheduler/v1alpha2"
+    kind: "DeschedulerPolicy"
+    profiles:
+    - name: "gimasi-prod-profile"
+      pluginConfig:
+      - name: "LowNodeUtilization"
+        args:
+          # Soglie conservative per produzione
+          thresholds:
+            cpu: 20
+            memory: 50
+          targetThresholds:
+            cpu: 40
+            memory: 65
+          
+          # Namespace di produzione
+          evictableNamespaces:
+            exclude:
+            - "kube-system"
+            - "flux-system"
+            - "cattle-system"
+            - "monitoring"
+            - "g-iot-core"
+            - "cnpg-system"     # PostgreSQL operator
+
+      plugins:
+        balance:
+          enabled:
+          - "LowNodeUtilization"
+      
+      # Limiti molto sicuri per produzione
+      maxNodesPercentage: 25
+      maxPodsToEvictTotal: 5
+      maxPodsToEvictPerNode: 2
+      maxPodsToEvictPerNamespace: 2

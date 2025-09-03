@@ -1,0 +1,14 @@
+# prod/infrastructure/descheduler/helmrelease-patch.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: descheduler
+  namespace: descheduler
+spec:
+  values:
+    # OVERRIDE: Per prod iniziamo con dry-run
+    dryRun: true  # Cambia a false quando sei pronto!
+    logLevel: "info"
+    
+    # Schedule più conservativo per prod
+    schedule: "0 */2 * * *"  # Ogni 2 ore invece di 30 min

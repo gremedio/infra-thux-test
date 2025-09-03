@@ -1,0 +1,10 @@
+# prod/infrastructure/descheduler/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/infrastructure/descheduler
+
+patches:
+- path: configmap-policy-patch.yaml
+- path: helmrelease-patch.yaml

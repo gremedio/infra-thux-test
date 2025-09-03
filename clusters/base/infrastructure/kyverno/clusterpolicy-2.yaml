@@ -1,0 +1,70 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-rancher-project-labels
+spec:
+  background: true
+  rules:
+    # Regole separate per ogni projectId
+    - name: add-gimasi-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaceSelector:
+                matchLabels:
+                  field.cattle.io/projectId: "p-npnsv"
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              field.cattle.io/projectId: "p-npnsv"
+              project_name: "gimasi"
+
+    - name: add-essepaghe-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaceSelector:
+                matchLabels:
+                  field.cattle.io/projectId: "p-6kqqd"
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              field.cattle.io/projectId: "p-6kqqd"
+              project_name: "essepaghe"
+
+    - name: add-thux-apps-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaceSelector:
+                matchLabels:
+                  field.cattle.io/projectId: "p-dwjjv"
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              field.cattle.io/projectId: "p-dwjjv"
+              project_name: "thux-apps"
+
+    # Regole per namespace patterns
+    - name: add-monitoring
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - "thux-monitoring"
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              project_name: "monitoring"

@@ -1,0 +1,41 @@
+# base/infrastructure/descheduler/configmap-policy.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: descheduler
+  namespace: descheduler
+data:
+  policy.yaml: |
+    apiVersion: "descheduler/v1alpha2"
+    kind: "DeschedulerPolicy"
+    profiles:
+    - name: "gimasi-base-profile"
+      pluginConfig:
+      - name: "LowNodeUtilization"
+        args:
+          # Soglie conservative di base
+          thresholds:
+            cpu: 20
+            memory: 20
+          targetThresholds:
+            cpu: 50
+            memory: 50
+          # Namespace base - override negli overlay
+          evictableNamespaces:
+            exclude:
+            - "kube-system"
+            - "flux-system"
+            - "cattle-system"
+            - "monitoring"
+            - "g-iot-core"
+
+      plugins:
+        balance:
+          enabled:
+          - "LowNodeUtilization"
+      
+      # Limiti sicuri di base
+      maxNodesPercentage: 30
+      maxPodsToEvictTotal: 5
+      maxPodsToEvictPerNode: 2
+      maxPodsToEvictPerNamespace: 3

@@ -1,0 +1,58 @@
+# Default values for thux-vuejs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: ghcr.io/requarks/wiki
+  tag: 2.5.301
+  pullPolicy: Always
+  port: 3000
+  livenessProbe:
+    enabled: true
+    path: "/"
+  readinessProbe:
+    enabled: true
+    path: "/"
+forceRollDeployment: false
+env:
+  normal:
+    DB_TYPE: postgres
+    DB_HOST: pg-wikijs-rw
+    DB_PORT: 5432
+    DB_USER: wikijs
+    DB_PASS: TYUI2xzmn
+    DB_NAME: wikijs
+    
+  secret: {}
+  
+gluster:
+  create: false
+
+nameOverride: "wikijs"
+fullnameOverride: ""
+# component is vital to determine the labels, i.e. the pods that compose a service
+# it need to be customized if you have more than 1 instance in the same namespace
+# (e.g.: several different frontend)
+component: "fe"
+
+replicaCount: 1
+ingressRoute:
+  enabled: false
+
+ingress:
+  enabled: true
+  className: nginx
+  #className: traefik
+  tls:
+    enabled: true
+    certSecretName: tls-thux.dev-wildcard 
+  useRegex: true
+
+  http: true
+  hosts:
+    - host: wiki.thux.dev
+      paths:
+      - path: /
+      tls:
+        enabled: true
+      useRegex: true

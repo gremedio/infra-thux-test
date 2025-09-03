@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+resources:
+- coredns-custom-entries.yaml
+patches:
+- path: patches/coredns-deployment-patch.yaml
+  target:
+    kind: Deployment
+    name: rke2-coredns-rke2-coredns
+- path: patches/coredns-configmap-patch.yaml
+  target:
+    kind: ConfigMap
+    name: rke2-coredns-rke2-coredns

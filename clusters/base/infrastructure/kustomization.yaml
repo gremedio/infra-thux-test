@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- descheduler
+- replicator
+- traefik
+- tls
+- dns/coredns
+- dns/powerdns-webhook
+- flux
+- storage/topolvm
+- kyverno

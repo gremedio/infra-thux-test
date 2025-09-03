@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cert-manager-webhook-pdns
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["acme.cert-manager.io"]
+  resources: ["challenges", "challenges/status"]
+  verbs: ["get", "list", "watch", "update"]
+- apiGroups: ["acme.rancher.thux.it"]  
+  resources: ["pdns"]
+  verbs: ["create", "get", "list", "watch", "delete"]

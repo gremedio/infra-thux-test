@@ -1,0 +1,41 @@
+# stg/postgres/network-policy.yaml
+# Policy per l'operatore
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-cnpg-operator
+spec:
+  podSelector:
+    matchExpressions:
+    - key: cnpg.io/cluster
+      operator: Exists
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: cnpg-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: cloudnative-pg
+      ports:
+        - port: 8000
+        - port: 5432
+---
+# Policy per il monitoring
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-pg-monitoring
+spec:
+  podSelector:
+    matchExpressions:
+    - key: cnpg.io/cluster
+      operator: Exists
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: pg-monitoring
+      ports:
+        - port: 8000
+        - port: 9187

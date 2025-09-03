@@ -1,0 +1,38 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.rancher.thux.dev`)
+      #  && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      kind: Rule
+      middlewares:
+        - name: allow-vpn-thux
+        - name: dashboard-auth
+      services:
+        - name: api@internal
+          kind: TraefikService
+  tls:
+    secretName: tls-rancher.thux.dev-wildcard
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-auth
+  namespace: traefik
+spec:
+  basicAuth:
+    secret: dashboard-auth-secret
+---
+apiVersion: v1
+data:
+  # echo $(htpasswd -nb username mystrongpassword)
+  traefik_users: YWRtaW46JGFwcjEkeTdoMHR6VkUkdUM3OXhzd3JYcjMzbm5hcDhNWDZLLgo=
+kind: Secret
+metadata:
+  name: dashboard-auth-secret
+  namespace: traefik

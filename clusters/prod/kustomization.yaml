@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonAnnotations:
+  project_name: thux
+commonLabels:
+  prj: thux
+resources:
+- namespace.yaml
+- ../base/source
+- ../base/infrastructure/dns/powerdns-webhook
+- ../base/infrastructure/dns/coredns
+- ../base/infrastructure/tls
+- ../base/infrastructure/traefik
+- ../base/infrastructure/flux
+- ../base/infrastructure/kyverno
+- ../base/infrastructure/descheduler
+- thux

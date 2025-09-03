@@ -1,0 +1,9 @@
+# base/source/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: flux-system  # Questo non verrà sovrascritto perché è in un path separato
+resources:
+  - helmrepository-cnpg.yaml
+  - helmrepository-replicator.yaml
+  - helmrepository-thux.yaml
+  

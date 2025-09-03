@@ -1,0 +1,12 @@
+# base/postgres/helmrepository.yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: thux
+  namespace: flux-system
+  labels:
+    prj: thux
+spec:
+  interval: 24h
+  url: https://charts.thux.dev
+
