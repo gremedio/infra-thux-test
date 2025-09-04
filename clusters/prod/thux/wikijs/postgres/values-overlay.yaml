@@ -5,6 +5,7 @@ cluster:
   instances: 2
   storage:
     size: 800Mi
+    storageClass: ""  # Usa default storage
 backups:
   retentionPolicy: 14d
   s3:
