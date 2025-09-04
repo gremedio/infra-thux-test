@@ -50,7 +50,7 @@ ingress:
 
   http: true
   hosts:
-    - host: wiki.thux.dev
+    - host: wiki.guido.it
       paths:
       - path: /
       tls:
