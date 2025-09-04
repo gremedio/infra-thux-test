@@ -44,7 +44,7 @@ backups:
     path: "/pg"
     # Se vuoi utilizzare i secrets esistenti
     #existingSecret: "pg-credentials"
-    ###accessKey: "MJKGHZKETZKZJZW8NRQH"
+    accessKey: "MJKGHZKETZKZJZW8NRQH"
     #secretKey: to-be-set-in-secret-pg-credentials
     # overwritten by overlay's kustomize
   secret:
