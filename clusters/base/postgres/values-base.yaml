@@ -39,7 +39,7 @@ backups:
     bucket: "guido-prova"
     path: "/"
     ###accessKey: "MJKGHZKETZKZJZW8NRQH"
-    accessKey: "ZZZZZZZZZZZZZZZZZZZZ"
+    ####accessKey: "ZZZZZZZZZZZZZZZZZZZZ"
 
     # overwritten by overlay's kustomize
   secret:
