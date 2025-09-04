@@ -2,10 +2,15 @@ fullnameOverride: pg-wikijs
 version:
   postgresql: "15"
 cluster:
-  instances: 2
+  instances: 1
   storage:
     size: 800Mi
-    storageClass: ""  # Usa default storage
+    storageClass: ""
+  initdb:
+    database: wikijs
+    owner: wikijs
+    secret:
+      name: wikijs-db-credentials
 backups:
   retentionPolicy: 14d
   s3:
