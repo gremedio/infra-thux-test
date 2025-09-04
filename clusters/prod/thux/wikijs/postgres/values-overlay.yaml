@@ -22,14 +22,14 @@ cluster:
 #     region: ""
 #     secretKey: QW5MTVsqmENdHLLgzIWI0gXeS5K4zSVPPc4EsJF6
 # BACKUP
-backups:
-  retentionPolicy: 14d
-  s3:
-    accessKey: CFCHQYI2ZH3ED9LLNJ4X
-    bucket: thux
-    path: /pg
-    #secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
-  scheduledBackups:
-  - backupOwnerReference: self
-    name: daily-backup
-    schedule: 0 0 0 * * *
+#backups:
+#  retentionPolicy: 14d
+#  s3:
+#    accessKey: CFCHQYI2ZH3ED9LLNJ4X
+#    bucket: thux
+#    path: /pg
+#    #secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
+#  scheduledBackups:
+#  - backupOwnerReference: self
+#    name: daily-backup
+#    schedule: 0 0 0 * * *
