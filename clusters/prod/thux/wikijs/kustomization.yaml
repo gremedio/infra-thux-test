@@ -6,5 +6,5 @@ namespace: wikijs
 resources:
 - namespace.yaml
 - frontend
-#- postgres
+- postgres
 
