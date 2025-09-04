@@ -1,19 +1,17 @@
 fullnameOverride: pg-wikijs
-# CLUSTER
 version:
   postgresql: "15"
 cluster:
   instances: 2
   storage:
     size: 800Mi
-# BACKUP
 backups:
   retentionPolicy: 14d
   s3:
     accessKey: CFCHQYI2ZH3ED9LLNJ4X
     bucket: thux
     path: /pg
-    #secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
+    secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
   scheduledBackups:
   - backupOwnerReference: self
     name: daily-backup
