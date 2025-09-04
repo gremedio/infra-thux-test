@@ -40,8 +40,8 @@ backups:
   endpointURL: "https://s3.eu-south-1.wasabisys.com"
   s3:
     region: ""
-    bucket: "thux-"
-    path: "/pg"
+    bucket: "guido-prova"
+    path: "/"
     # Se vuoi utilizzare i secrets esistenti
     #existingSecret: "pg-credentials"
     ###accessKey: "MJKGHZKETZKZJZW8NRQH"
