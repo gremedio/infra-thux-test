@@ -10,10 +10,7 @@ cluster:
       - host all all 10.0.0.0/8 md5
       - host all all 172.16.0.0/12 md5
   initdb:
-    #database: thux
-    #owner: thux
     secret:
-    #   # nel secret c'è username: db-user / password: ...
       name: 'pg-credentials'
 
   storage:
@@ -28,7 +25,6 @@ cluster:
       key: app
       operator: Equal
       value: postgresql
-    #topologyKey: kubernetes.io/hostname
     topologyKey: zone
 
 monitoring:
@@ -42,11 +38,9 @@ backups:
     region: ""
     bucket: "guido-prova"
     path: "/"
-    # Se vuoi utilizzare i secrets esistenti
-    #existingSecret: "pg-credentials"
     ###accessKey: "MJKGHZKETZKZJZW8NRQH"
     accessKey: "ZZZZZZZZZZZZZZZZZZZZ"
-    #secretKey: to-be-set-in-secret-pg-credentials
+
     # overwritten by overlay's kustomize
   secret:
     create: false
