@@ -1,4 +1,4 @@
-fullnameOverride: pg-gis
+fullnameOverride: pg-Guido
 type: postgresql
 mode: standalone
 version:
