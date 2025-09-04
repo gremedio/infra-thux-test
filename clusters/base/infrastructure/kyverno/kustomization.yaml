@@ -5,4 +5,4 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   #- clusterpolicy.yaml
-  - clusterpolicy-2.yaml
+#  - clusterpolicy-2.yaml
