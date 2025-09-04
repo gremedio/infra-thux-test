@@ -20,7 +20,7 @@ spec:
     - kind: ConfigMap
       name: pg-values-overlay
       valuesKey: values
-#    - kind: Secret
-#      name: pg-credentials
-#      targetPath: backups.s3.secretKey
-#      valuesKey: S3_SECRET_KEY
+    - kind: Secret
+      name: pg-credentials
+      targetPath: backups.s3.secretKey
+      valuesKey: S3_SECRET_KEY
