@@ -47,6 +47,9 @@ backups:
     accessKey: "MJKGHZKETZKZJZW8NRQH"
     #secretKey: to-be-set-in-secret-pg-credentials
     # overwritten by overlay's kustomize
+  secret:
+    create: false
+    name: pg-credential
 
   scheduledBackups:
     - name: daily-backup
