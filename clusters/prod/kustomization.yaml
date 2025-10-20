@@ -13,6 +13,6 @@ resources:
 - ../base/infrastructure/tls
 - ../base/infrastructure/traefik
 - ../base/infrastructure/flux
-- ../base/infrastructure/kyverno
+#- ../base/infrastructure/kyverno
 - ../base/infrastructure/descheduler
 - thux
