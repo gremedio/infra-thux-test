@@ -7,6 +7,7 @@ commonLabels:
 resources:
 - namespace.yaml
 - ../base/source
+- ../base/postgres 
 - ../base/infrastructure/dns/powerdns-webhook
 - ../base/infrastructure/dns/coredns
 - ../base/infrastructure/tls
