@@ -14,9 +14,7 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: cnpg-system
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: cloudnative-pg
+
       ports:
         - port: 8000
         - port: 5432
