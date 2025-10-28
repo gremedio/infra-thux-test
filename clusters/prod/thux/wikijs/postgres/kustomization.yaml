@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: wikijs
 resources:
   - ../../../../base/postgres
+  - app-secret.yaml
 
   # - secrets.yaml    handled by hand
 # base/postgres/network-policies/kustomization.yaml
@@ -21,8 +22,6 @@ patches:
       kind: HelmRelease
       metadata:
         name: cnpg
-        labels:
-          prj: thux
     target:
       kind: HelmRelease
       name: cnpg
