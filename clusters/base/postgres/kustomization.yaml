@@ -5,6 +5,7 @@ namespace: flux-system
 resources:
   - helmrelease.yaml
   - network-policy.yaml
+  - secrets.yaml
 configMapGenerator:
   - name: pg-values-base
     options:
