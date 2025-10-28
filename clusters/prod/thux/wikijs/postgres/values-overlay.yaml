@@ -2,7 +2,7 @@ fullnameOverride: pg-wikijs
 version:
   postgresql: "15"
 cluster:
-  instances: 1
+  instances: 3
   storage:
     size: 800Mi
     storageClass: ""
