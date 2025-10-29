@@ -27,4 +27,4 @@ spec:
     - kind: Secret
       name: pg-credentials
       targetPath: backups.s3.secretKey
-      valuesKey: SECRET_ACCESS_KEY
+      valuesKey: ACCESS_SECRET_KEY
