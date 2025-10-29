@@ -30,29 +30,3 @@ cluster:
 monitoring:
   enablePodMonitor: true
 
-#backups:
-#  enabled: true
-#  provider: s3
-#  endpointURL: "https://s3.eu-south-1.wasabisys.com"
-#  s3:
-#    region: ""
-#    bucket: "guido-prova"
-#    path: "/"
-#    ###accessKey: "MJKGHZKETZKZJZW8NRQH"
-#    ####accessKey: "ZZZZZZZZZZZZZZZZZZZZ"#
-
-    # overwritten by overlay's kustomize
-#  secret:
-#    create: false
-#    name: pg-credentials#
-
-#  scheduledBackups:
-#    - name: daily-backup
-#      schedule: "0 0 0 * * *"
-#      backupOwnerReference: self
-
-  # Configurazioni aggiuntive per compressione e retention
-#  compression: gzip
-#  retentionPolicy: "100d"
-#  immediateCheckpoint: false
-#  jobs: 2

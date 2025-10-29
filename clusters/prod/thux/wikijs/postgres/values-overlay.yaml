@@ -11,17 +11,6 @@ cluster:
     owner: wikijs
     secret:
       name: wikijs-db-credentials
-#backups:
-#  retentionPolicy: 14d
-#  s3:
-#    accessKey: CFCHQYI2ZH3ED9LLNJ4X
-#    bucket: thux
-#    path: /pg
-#    secretKey: erQtBpOKsNHchcKSDIezRaYDUL36WeTeF0WrZdn1
-#  scheduledBackups:
-#  - backupOwnerReference: self
-#    name: daily-backup
-#    schedule: 0 0 0 * * *
 backups:
   enabled: true
   provider: s3
@@ -30,9 +19,7 @@ backups:
     region: ""
     bucket: "guido-prova"
     path: "/"
-    ###accessKey: "MJKGHZKETZKZJZW8NRQH"
-    ####accessKey: "ZZZZZZZZZZZZZZZZZZZZ"
-
+  
     # overwritten by overlay's kustomize
   secret:
     create: false
