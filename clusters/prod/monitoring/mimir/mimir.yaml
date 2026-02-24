@@ -20,10 +20,10 @@ common:
   storage:
     backend: s3
     s3:
-      endpoint: xxxxxxs3.eu-south-1.wasabisys.com
-      access_key_id: I5FQDRY50CHKBOD2GABO
-      secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
-      bucket_name: monitoring-metrics
+      endpoint: s3.eu-south-1.wasabisys.com
+      access_key_id: DHO4CC2STR5YHJEAPWA1
+      secret_access_key: 3Ijs0MjZvGQ4PlJGJlJTOeHMnCNDOVBT5AzivnkR
+      bucket_name: guido-prova
       region: eu-south-1
       insecure: false
     # filesystem: # RIMOSSO
@@ -32,10 +32,10 @@ common:
 alertmanager_storage:
   backend: s3
   s3:
-    endpoint: xxxxs3.eu-south-1.wasabisys.com
-    access_key_id: I5FQDRY50CHKBOD2GABO
-    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
-    bucket_name: monitoring-metrics
+    endpoint: s3.eu-south-1.wasabisys.com
+    access_key_id: DHO4CC2STR5YHJEAPWA1
+    secret_access_key: 3Ijs0MjZvGQ4PlJGJlJTOeHMnCNDOVBT5AzivnkR
+    bucket_name: guido-prova
     region: eu-south-1
     insecure: false
   # filesystem: # RIMOSSO
@@ -46,10 +46,10 @@ alertmanager_storage:
 ruler_storage:
   backend: s3
   s3:
-    endpoint: xxxxs3.eu-south-1.wasabisys.com
-    access_key_id: I5FQDRY50CHKBOD2GABO
-    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
-    bucket_name: monitoring-metrics
+    endpoint: s3.eu-south-1.wasabisys.com
+    access_key_id: DHO4CC2STR5YHJEAPWA1
+    secret_access_key: 3Ijs0MjZvGQ4PlJGJlJTOeHMnCNDOVBT5AzivnkR
+    bucket_name: guido-prova
     region: eu-south-1
     insecure: false
   # filesystem: # RIMOSSO
@@ -60,10 +60,10 @@ ruler_storage:
 blocks_storage:
   backend: s3
   s3:
-    endpoint: xxxxxs3.eu-south-1.wasabisys.com
-    access_key_id: I5FQDRY50CHKBOD2GABO
-    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
-    bucket_name: monitoring-metrics
+    endpoint: s3.eu-south-1.wasabisys.com
+    access_key_id: DHO4CC2STR5YHJEAPWA1
+    secret_access_key: 3Ijs0MjZvGQ4PlJGJlJTOeHMnCNDOVBT5AzivnkR
+    bucket_name: guido-prova
     region: eu-south-1
     insecure: false
   # filesystem: # RIMOSSO
