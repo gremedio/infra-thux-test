@@ -1,6 +1,15 @@
 root_url: http://grafana.lab-thux.it
 persistence:
   enabled: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
 grafana.ini:
   log:
     level: info
