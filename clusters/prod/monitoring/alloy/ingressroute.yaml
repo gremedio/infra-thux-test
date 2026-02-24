@@ -14,7 +14,7 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`alloy.lab-thux.it`)
       kind: Rule

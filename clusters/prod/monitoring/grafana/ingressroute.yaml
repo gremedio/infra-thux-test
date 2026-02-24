@@ -4,7 +4,7 @@ metadata:
   name: grafana-rancher-thux-dev
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`grafana.lab-thux.it`)
       kind: Rule
