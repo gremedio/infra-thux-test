@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mimir
+spec:
+  values:
+    global:
+      dnsService: "rke2-coredns-rke2-coredns"
+      dnsNamespace: "kube-system"
+      clusterDomain: "cluster.local"

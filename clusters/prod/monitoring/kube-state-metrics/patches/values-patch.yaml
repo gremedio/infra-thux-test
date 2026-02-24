@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-state-metrics
+  namespace: monitoring
+spec:
+  values:
+    namespaces: []
+    customLabels:
+      project_name: |
+        # Prima estraiamo l'ID del progetto dalla label di Rancher
+        project_id = kube_namespace_labels{label_name="field.cattle.io/projectId"} -> "$.matches[0]"
+        
+        # Mappatura esplicita ID -> nome
+        project_id == "p-npnsv" -> "gimasi"
+        project_id == "p-6kqqd" -> "essepaghe"
+        project_id == "p-dwjjv" -> "thux-apps"
+                
+        # Catch-all per progetti non mappati
+        * -> "thux"
+    
+    metricLabels:
+      - labelName: project_id
+        sourceLabels: [namespace]
+        regex: ".*"
+        replacement: "${project_id}"
+      - labelName: project_name
+        sourceLabels: [project_name]
+        regex: ".*"
+        replacement: "${project_name}"

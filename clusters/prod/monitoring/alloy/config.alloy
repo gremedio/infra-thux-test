@@ -1,0 +1,142 @@
+logging {
+  level = "info"
+  format = "logfmt"
+}
+
+// ============================================================================
+// Kubernetes pod logs - Versione semplificata senza filtri
+// ============================================================================
+
+discovery.kubernetes "namespace" {
+  role = "namespace"
+}
+
+discovery.kubernetes "pod" {
+  role = "pod"
+}
+
+// loki.source.kubernetes tails logs from Kubernetes containers using the Kubernetes API.
+loki.source.kubernetes "pod_logs" {
+  targets    = discovery.kubernetes.pod.targets
+  forward_to = [loki.write.default_loki.receiver]
+}
+
+// ============================================================================
+// Kubernetes cluster events
+// ============================================================================
+
+loki.source.kubernetes_events "cluster_events" {
+  job_name   = "integrations/kubernetes/eventhandler"
+  log_format = "logfmt"
+  forward_to = [
+    loki.process.cluster_events.receiver,
+  ]
+}
+
+loki.process "cluster_events" {
+  stage.static_labels {
+    values = {
+      cluster = "prod",
+    }
+  }
+
+  stage.labels {
+    values = {
+      kubernetes_cluster_events = "job",
+    }
+  }
+
+  forward_to = [loki.write.default_loki.receiver]
+}
+
+// ============================================================================
+// Node metrics
+// ============================================================================
+prometheus.exporter.unix "node_metrics" {
+  enable_collectors = ["uname"]
+}
+
+prometheus.scrape "node_metrics_scrape" {
+  targets = prometheus.exporter.unix.node_metrics.targets
+
+  scrape_interval = "30s"
+  job_name = "node-exporter"
+
+  forward_to = [ prometheus.remote_write.default_mimir.receiver ]
+}
+
+// ============================================================================
+// Kube State metrics
+// ============================================================================
+import.git "ksm" {
+  repository = "https://github.com/grafana/alloy-modules.git"
+  revision = "main"
+  path = "modules/kubernetes/kube-state-metrics/metrics.alloy"
+  pull_frequency = "900m"
+}
+
+ksm.kubernetes "targets" {
+  // Nessun parametro namespaces per scoprire dinamicamente tutti i namespace
+}
+
+ksm.scrape "metrics" {
+  targets = ksm.kubernetes.targets.output
+  job_label = "kube_state_metrics"
+  scrape_interval = "30s"
+
+  forward_to = [ prometheus.remote_write.default_mimir.receiver ]
+}
+
+// ============================================================================
+// Pod metrics - cAdvisor
+// ============================================================================
+discovery.kubernetes "nodes" {
+  role = "node"
+}
+
+prometheus.scrape "k8s_node_cadvisor" {
+  targets    = discovery.kubernetes.nodes.targets
+  honor_labels = true
+  scrape_interval = "30s"
+  scheme = "https"
+  metrics_path = "/metrics/cadvisor"  // <-- AGGIUNGI QUESTA RIGA
+  bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+  tls_config {
+    ca_file = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+  }
+
+  forward_to = [prometheus.remote_write.default_mimir.receiver]
+}
+
+// ============================================================================
+// Per-service metrics using serviceMonitor
+// ============================================================================
+
+prometheus.operator.servicemonitors "services" {
+  namespaces = [ "monitoring" ]
+  forward_to = [prometheus.remote_write.default_mimir.receiver]
+}
+
+prometheus.operator.podmonitors "podmonitors" {
+  forward_to = [prometheus.remote_write.default_mimir.receiver]
+}
+
+// ============================================================================
+// Write endpoints
+// ============================================================================
+
+loki.write "default_loki" {
+  endpoint {
+    url = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+    tenant_id = "prod"
+  }
+}
+
+prometheus.remote_write "default_mimir" {
+  endpoint {
+    url = "http://mimir-gateway.monitoring.svc.cluster.local:80/api/v1/push"
+    queue_config {
+      sample_age_limit = "300s"
+    }
+  }
+}

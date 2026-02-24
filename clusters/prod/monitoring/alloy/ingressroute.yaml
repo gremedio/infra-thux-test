@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: alloy-basic-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: alloy-basic-auth
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: alloy
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`alloy.lab-thux.it`)
+      kind: Rule
+      middlewares:
+        - name: alloy-basic-auth
+        - name: allow-vpn-thux
+          namespace: traefik
+      services:
+        - name: alloy
+          port: 12345

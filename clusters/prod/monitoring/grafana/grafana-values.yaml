@@ -1,0 +1,54 @@
+root_url: http://grafana.lab-thux.it
+persistence:
+  enabled: true
+grafana.ini:
+  log:
+    level: info
+  server:
+    root_url: http://grafana.lab-thux.it
+    serve_from_sub_path: false
+    enable_gzip: true
+    domain: grafana.lab-thux.it
+  auth:
+    disable_login_form: false
+  auth.basic:
+    enabled: true
+  feature_toggles:
+    enable: publicDashboards
+  # Rimuovo la configurazione OAuth di Keycloak
+  # auth.generic_oauth:
+  #   enabled: false
+  #   name: Keycloak-OAuth
+  #   allow_sign_up: true
+  #   client_id: grafana-oauth
+  #   scopes: openid email profile offline_access roles
+  #   email_attribute_path: email
+  #   login_attribute_path: username
+  #   name_attribute_path: full_name
+  #   auth_url: https://keycloak.tools.g-iot.io/realms/g-iot-dev/protocol/openid-connect/auth
+  #   token_url: https://keycloak.tools.g-iot.io/realms/g-iot-dev/protocol/openid-connect/token
+  #   api_url: https://keycloak.tools.g-iot.io/realms/g-iot-dev/protocol/openid-connect/userinfo
+  #   role_attribute_path: contains(resource_access."grafana-oauth".roles[*], 'grafanaAdmin') && 'GrafanaAdmin' || contains(resource_access."grafana-oauth".roles[*], 'admin') && 'Admin' || contains(resource_access."grafana-oauth".roles[*], 'editor') && 'Editor' || 'Viewer'
+  #   allow_assign_grafana_admin: true
+  #   role_attribute_strict: true
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://mimir-gateway.monitoring.svc.cluster.local:80/prometheus/
+        isDefault: true
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway.monitoring.svc.cluster.local
+
+# Aggiungo configurazione per l'utente admin
+adminUser: admin
+adminPassword: TYUI2xzmn  # Sostituisci con una password sicura
+# Rimuovo la configurazione NodePort, tornando al default ClusterIP
+# service:
+#   type: NodePort
+#   port: 80

@@ -1,0 +1,166 @@
+#memberlist:
+#  cluster_label: "mimir"
+#  cluster_label_verification_disabled: false
+server:
+  log_format: json
+  log_level: info
+  grpc_server_max_recv_msg_size: 104857600
+  grpc_server_max_send_msg_size: 104857600
+  grpc_server_max_concurrent_streams: 1000
+
+activity_tracker:
+  filepath: /active-query-tracker/activity.log
+alertmanager:
+  data_dir: /data/alertmanager-data
+  enable_api: true
+  external_url: /alertmanager
+  fallback_config_file: /configs/alertmanager_fallback_config.yaml
+
+common:
+  storage:
+    backend: s3
+    s3:
+      endpoint: xxxxxxs3.eu-south-1.wasabisys.com
+      access_key_id: I5FQDRY50CHKBOD2GABO
+      secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
+      bucket_name: monitoring-metrics
+      region: eu-south-1
+      insecure: false
+    # filesystem: # RIMOSSO
+    #   dir: /data/mimir_storage/common # RIMOSSO
+
+alertmanager_storage:
+  backend: s3
+  s3:
+    endpoint: xxxxs3.eu-south-1.wasabisys.com
+    access_key_id: I5FQDRY50CHKBOD2GABO
+    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
+    bucket_name: monitoring-metrics
+    region: eu-south-1
+    insecure: false
+  # filesystem: # RIMOSSO
+  #   dir: /data/mimir_storage/alertmanager # RIMOSSO
+  storage_prefix: alertmanager
+  #backend: local
+
+ruler_storage:
+  backend: s3
+  s3:
+    endpoint: xxxxs3.eu-south-1.wasabisys.com
+    access_key_id: I5FQDRY50CHKBOD2GABO
+    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
+    bucket_name: monitoring-metrics
+    region: eu-south-1
+    insecure: false
+  # filesystem: # RIMOSSO
+  #   dir: /data/mimir_storage/ruler # RIMOSSO
+  storage_prefix: ruler
+  #backend: local
+
+blocks_storage:
+  backend: s3
+  s3:
+    endpoint: xxxxxs3.eu-south-1.wasabisys.com
+    access_key_id: I5FQDRY50CHKBOD2GABO
+    secret_access_key: ML7eJHDJCrh8oZ92tcYEayZCbO1z6lCKekFvKT3B
+    bucket_name: monitoring-metrics
+    region: eu-south-1
+    insecure: false
+  # filesystem: # RIMOSSO
+  #  dir: /data/mimir_storage/blocks # RIMOSSO
+  storage_prefix: blocks
+  bucket_store:
+    sync_dir: /data/tsdb-sync # Questo è per la sincronizzazione locale, può rimanere
+  tsdb:
+    dir: /data/tsdb
+    head_compaction_interval: 15m
+    wal_replay_concurrency: 3
+    wal_compression_enabled: true  # Riduci la dimensione del WAL
+    stripe_size: 2  # Meno lock contention durante il flush
+
+compactor:
+  compaction_interval: 50m
+  data_dir: /data/compactor-work
+  deletion_delay: 12h
+  first_level_compaction_wait_period: 1h
+  max_closing_blocks_concurrency: 2
+  max_opening_blocks_concurrency: 4
+  sharding_ring:
+    heartbeat_period: 1m
+    heartbeat_timeout: 4m
+    wait_stability_min_duration: 1m
+  symbols_flushers_concurrency: 4
+distributor:
+  ring:
+    heartbeat_period: 1m
+    heartbeat_timeout: 4m
+frontend:
+  parallelize_shardable_queries: true
+  scheduler_address: mimir-query-scheduler-headless.monitoring:9095
+frontend_worker:
+  grpc_client_config:
+    max_send_msg_size: 419430400
+  scheduler_address: mimir-query-scheduler-headless.monitoring:9095
+ingester:
+  ring:
+    final_sleep: 0s
+    heartbeat_period: 2m
+    heartbeat_timeout: 10m
+    num_tokens: 512
+    tokens_file_path: /data/tokens
+    unregister_on_shutdown: false
+    zone_awareness_enabled: true
+  
+ingester_client:
+  grpc_client_config:
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 104857600
+limits:
+  max_cache_freshness: 1h
+  max_query_parallelism: 240
+  max_total_query_length: 12000h
+  out_of_order_time_window: 60h
+  max_global_series_per_user: 250000
+  max_label_names_per_series: 39
+  ingestion_rate: 300000  # Aumentato da 150000
+  ingestion_burst_size: 400000  # Aumentato da 200000
+  compactor_blocks_retention_period: 720h
+memberlist:
+  abort_if_cluster_join_fails: false
+  compression_enabled: false
+  join_members:
+  - dns+mimir-gossip-ring.monitoring.svc.cluster.local.:7946
+querier:
+  max_concurrent: 16
+query_scheduler:
+  max_outstanding_requests_per_tenant: 800
+ruler:
+  alertmanager_url: dnssrvnoa+http://_http-metrics._tcp.mimir-alertmanager-headless.monitoring.svc.cluster.local./alertmanager
+  enable_api: true
+  rule_path: /data/ruler-rules
+
+runtime_config:
+  file: /var/mimir/runtime.yaml
+store_gateway:
+  sharding_ring:
+    heartbeat_period: 1m
+    heartbeat_timeout: 4m
+    kvstore:
+      prefix: multi-zone/
+    tokens_file_path: /data/tokens
+    unregister_on_shutdown: false
+    wait_stability_min_duration: 1m
+    zone_awareness_enabled: true
+usage_stats:
+  installation_mode: helm
+  enabled: false
+
+# Writes incoming series to long-term storage on the write path and returns series samples for queries on the read path.
+#ingester:
+
+# Receives data from alloy, corrects, devides data to batches and send to ingesters
+#distributor:
+
+# Increases query performance and reduces long-term storage usage by combining blocks.
+#compactor:
+#  compaction_interval: 24h
