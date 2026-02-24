@@ -15,4 +15,5 @@ resources:
 - ../base/infrastructure/flux
 #- ../base/infrastructure/kyverno
 - ../base/infrastructure/descheduler
+- monitoring
 - thux
