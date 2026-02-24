@@ -1,0 +1,51 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mimir
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: mimir-distributed
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+      interval: 24h
+  releaseName: mimir
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+    ignore:
+    - paths: ["/spec/replicas"]
+      target:
+        kind: Deployment
+  valuesFrom:
+    - kind: ConfigMap
+      name: mimir-helm-values
+      optional: true
+  values:
+    useExternalConfig: true
+    externalConfigSecretName: mimir-config
+    externalConfigVersion: "16"
+    minio:
+      enabled: false
+    gateway:
+      nginx:
+        verboseLogging: false
+    nginx:
+        verboseLogging: false
+    store_gateway:
+      enabled: true
+      replicas: 2
+      persistentVolume:
+        enabled: true
+        size: 20Gi
+      zoneAwareReplication:
+        enabled: true
+        topologyKey: 'topology.kubernetes.io/zone'

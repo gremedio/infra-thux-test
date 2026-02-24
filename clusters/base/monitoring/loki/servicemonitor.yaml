@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: loki-canary
+  # If labels are defined in spec.serviceMonitorSelector.matchLabels of your deployed Prometheus object, make sure to include them here.
+spec:
+  endpoints:
+  - port: http-metrics
+    scheme: http
+    path: /metrics
+    interval: 15s
+    scrapeTimeout: 14s
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/component: canary
+  namespaceSelector:
+    any: false

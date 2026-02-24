@@ -1,0 +1,42 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mimir
+  # If labels are defined in spec.serviceMonitorSelector.matchLabels of your deployed Prometheus object, make sure to include them here.
+spec:
+  endpoints:
+  - port: http-metrics
+    metricRelabelings:
+    - sourceLabels:
+        - __address__
+      targetLabel: pod
+      regex: '([^:]+)(:[0-9]+)?'
+      replacement: '${1}'
+    - sourceLabels:
+        - namespace
+        - pod
+      targetLabel: job
+      separator: '/'
+      regex: '(.+?)(-\d+)?'
+      replacement: '${1}'
+    - sourceLabels:
+        - pod
+      targetLabel: container
+      regex: '(.+?)(-\d+)?'
+      replacement: '${1}'
+    scheme: http
+    path: /metrics
+    #params:
+    #  family:
+    #    - queue_coarse_metrics
+    #    - queue_metrics
+    interval: 15s
+    scrapeTimeout: 14s
+    # relabelings: # https://github.com/grafana/mimir/blob/main/development/mimir-microservices-mode/config/grafana-agent.yaml
+
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mimir
+  namespaceSelector:
+    any: false
