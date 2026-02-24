@@ -59,7 +59,7 @@ datasources:
 # Aggiungo configurazione per l'utente admin
 adminUser: admin
 adminPassword: TYUI2xzmn  # Sostituisci con una password sicura
-# Rimuovo la configurazione NodePort, tornando al default ClusterIP
-# service:
-#   type: NodePort
-#   port: 80
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080
