@@ -4,7 +4,7 @@ version:
 cluster:
   instances: 3
   storage:
-    size: 5Gi
+    size: 2Gi
     storageClass: ""
   initdb:
     database: wikijs
