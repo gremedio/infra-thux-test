@@ -28,7 +28,8 @@ loki:
     ingestion_burst_size_mb: 20
     volume_enabled: true
     max_entries_limit_per_query: 10000
-    reject_old_samples_max_age: 720h
+    reject_old_samples_max_age: 72h
+    retention_period: 72h
 
   ingester:
     chunk_encoding: snappy
