@@ -60,6 +60,8 @@ deploymentMode: SimpleScalable
 
 backend:
   replicas: 1
+  persistence:
+    size: 5Gi
   resources:
     requests:
       cpu: 100m
@@ -78,6 +80,8 @@ read:
       memory: 512Mi
 write:
   replicas: 1
+  persistence:
+    size: 5Gi
   resources:
     requests:
       cpu: 100m
