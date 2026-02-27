@@ -19,6 +19,8 @@ spec:
     # Riduzione repliche per ambiente lab
     alertmanager:
       replicas: 1
+      persistentVolume:
+        size: 1Gi
       resources:
         requests:
           cpu: 20m
@@ -29,6 +31,8 @@ spec:
 
     compactor:
       replicas: 1
+      persistentVolume:
+        size: 2Gi
       resources:
         requests:
           cpu: 20m
@@ -51,6 +55,8 @@ spec:
       replicas: 1
       zoneAwareReplication:
         enabled: false
+      persistentVolume:
+        size: 2Gi
       resources:
         requests:
           cpu: 50m
@@ -103,6 +109,8 @@ spec:
       replicas: 1
       zoneAwareReplication:
         enabled: false
+      persistentVolume:
+        size: 5Gi
       resources:
         requests:
           cpu: 30m
