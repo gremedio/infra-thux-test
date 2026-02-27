@@ -9,6 +9,13 @@ spec:
       dnsNamespace: "kube-system"
       clusterDomain: "cluster.local"
 
+    # Configurazione per ambiente lab single-replica
+    mimir:
+      structuredConfig:
+        ingester:
+          ring:
+            replication_factor: 1
+
     # Riduzione repliche per ambiente lab
     alertmanager:
       replicas: 1
