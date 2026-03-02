@@ -25,7 +25,7 @@ grafana.ini:
   auth.basic:
     enabled: true
   feature_toggles:
-    enable: publicDashboards
+    enable: publicDashboards provisioning kubernetesDashboards
   # Rimuovo la configurazione OAuth di Keycloak
   # auth.generic_oauth:
   #   enabled: false
